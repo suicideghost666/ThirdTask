@@ -13,35 +13,25 @@ public class Second extends Thread {
 
     public void run() {
         try {
-            int count = 0;
-            while (count <= m) {
-                synchronized (lock) {
+            synchronized (lock) {
+                for (int i = 0; i < m; i++) {
                     while (currentIndex != index) {
                         lock.wait();
                     }
-//                    //System.out.println(currentIndex);
-//                    if (Second.count <= m) {
-//                        if (output == null) {
-//                            output = this.getName().repeat(count);
-//                            // System.out.println( "name:" + this.getName() + "output: " + output);
-//                        } else {
-//                            output += this.getName().repeat(count);
-//                        }
-//                        output += "\n";
-//                        fileWriter.write(output);
-//                        Second.count++;
-//                    } else {
-//                        currentIndex++;
-//                        Second.count = 0;
-//                        lock.notifyAll();
-//                    }
-//                    System.out.println( "output: " + output);
-//                    // fileWriter.flush();
-                    if ()
-                    lock.notifyAll();
+                    if (output == null) {
+                        output = this.getName();
+                    } else {
+                        output += this.getName();
+                    }
+                    fileWriter.write(output);
+                    fileWriter.write("\n");
+                    fileWriter.flush();
+
                 }
+                currentIndex++;
+                lock.notifyAll();
             }
-        } catch (InterruptedException /*| IOException */e) {
+        } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
     }
